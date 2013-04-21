@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="LCW.RBAC.Entities" assembly="LCW.RBAC.Entities">
+    <class name="SysDepartment" table="[dbo].[sys_Department]" >
+        <id name="DepartmentId" column="[DepartmentId]" type="Int32" >
+            <generator class="native" />
+        </id>
+        <property name="DepartmentName" column="[DepartmentName]" type="AnsiString" not-null="true" length="20" /> 
+        <property name="DepartmentDescription" column="[DepartmentDescription]" type="AnsiString" not-null="false" length="250" /> 
+        <property name="ParentId" column="[ParentId]" type="Int32" not-null="true" /> 
+        <property name="Status" column="[Status]" type="Byte" not-null="true" /> 
+        <property name="OrderBy" column="[OrderBy]" type="Int32" not-null="true" /> 
+        <property name="CreateDate" column="[CreateDate]" type="DateTime" not-null="true" /> 
+        <property name="ModifiedDate" column="[ModifiedDate]" type="DateTime" not-null="true" /> 
+        <bag name="SysUserDetailList" inverse="true" cascade="all-delete-orphan" lazy="true" >
+            <key>
+                <column name="[DepartmentId]" />
+            </key>
+            <one-to-many class="SysUserDetail" />
+        </bag>
+    </class>
+</hibernate-mapping>
+

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="LCW.RBAC.Entities" assembly="LCW.RBAC.Entities">
+    <class name="Authentication" table="[dbo].[Authentication]" >
+        <id name="Identification" column="[AuthenticationId]" type="Int32" >
+            <generator class="assigned" />
+        </id>
+        <property name="PrivilegeMode" column="[PrivilegeMode]" type="Int32" not-null="true" /> 
+        <many-to-one name="SysResourceAction" class="SysResourceAction" not-null="true" >
+            <column name="[ResourceActionId]" />
+        </many-to-one>
+        <many-to-one name="SysRole" class="SysRole" not-null="true" >
+            <column name="[RoleId]" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>
+

@@ -1,0 +1,7 @@
+F:\WorkPlace\RBAC\LCW.RBAC\LCW.RBAC.Application\bin\Debug\LCW.RBAC.Application.dll
+F:\WorkPlace\RBAC\LCW.RBAC\LCW.RBAC.Application\bin\Debug\LCW.RBAC.Application.pdb
+F:\WorkPlace\RBAC\LCW.RBAC\LCW.RBAC.Application\obj\Debug\ResolveAssemblyReference.cache
+F:\WorkPlace\RBAC\LCW.RBAC\LCW.RBAC.Application\obj\Debug\LCW.RBAC.Application.dll
+F:\WorkPlace\RBAC\LCW.RBAC\LCW.RBAC.Application\obj\Debug\LCW.RBAC.Application.pdb
+F:\WorkPlace\RBAC\LCW.RBAC\Reference\LCW.RBAC.Application.dll
+F:\WorkPlace\RBAC\LCW.RBAC\Reference\LCW.RBAC.Application.pdb

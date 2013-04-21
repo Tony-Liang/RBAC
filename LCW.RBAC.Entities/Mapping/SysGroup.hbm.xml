@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="LCW.RBAC.Entities" assembly="LCW.RBAC.Entities">
+  <class name="SysGroup" table="[dbo].[sys_Group]" >
+    <id name="GroupId" column="[GroupId]" type="Int32" >
+      <generator class="native" />
+    </id>
+    <property name="GroupName" column="[GroupName]" type="AnsiString" not-null="false" length="20" />
+    <property name="Status" column="[Status]" type="Byte" not-null="true" />
+    <property name="OrderBy" column="[OrderBy]" type="Int32" not-null="true" />
+    <property name="CreateDate" column="[CreateDate]" type="DateTime" not-null="true" />
+    <property name="ModifiedDate" column="[ModifiedDate]" type="DateTime" not-null="true" />
+    <many-to-one name="SysGroupMember" class="SysGroup">
+      <column name="[ParentId]" />
+    </many-to-one>
+    <bag name="SysGroupList" inverse="true" cascade="all-delete-orphan" lazy="true" >
+      <key>
+        <column name="[ParentId]" />
+      </key>
+      <one-to-many class="SysGroup" />
+    </bag>
+    <bag name="SysGroupRoleList" inverse="true" cascade="all-delete-orphan" lazy="true" >
+      <key>
+        <column name="[GroupId]" />
+      </key>
+      <one-to-many class="SysGroupRole" />
+    </bag>
+    <bag name="SysUserGroupList" inverse="true" cascade="all-delete-orphan" lazy="true" >
+      <key>
+        <column name="[GroupId]" />
+      </key>
+      <one-to-many class="SysUserGroup" />
+    </bag>
+  </class>
+</hibernate-mapping>
+

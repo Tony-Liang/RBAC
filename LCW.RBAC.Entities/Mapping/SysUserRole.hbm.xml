@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="LCW.RBAC.Entities" assembly="LCW.RBAC.Entities">
+    <class name="SysUserRole" table="[dbo].[sys_UserRole]" >
+        <id name="Identification" column="[Id]" type="Int32" >
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="SysRole" class="SysRole" not-null="true" >
+            <column name="[RoleId]" />
+        </many-to-one>
+        <many-to-one name="SysUser" class="SysUser" not-null="true" >
+            <column name="[UserId]" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>
+

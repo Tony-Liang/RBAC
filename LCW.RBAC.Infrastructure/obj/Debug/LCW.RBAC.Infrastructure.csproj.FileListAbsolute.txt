@@ -1,0 +1,11 @@
+F:\WorkPlace\RBAC\LCW.RBAC\LCW.RBAC.Infrastructure\bin\Debug\LCW.RBAC.Infrastructure.dll
+F:\WorkPlace\RBAC\LCW.RBAC\LCW.RBAC.Infrastructure\bin\Debug\LCW.RBAC.Infrastructure.pdb
+F:\WorkPlace\RBAC\LCW.RBAC\LCW.RBAC.Infrastructure\obj\Debug\ResolveAssemblyReference.cache
+F:\WorkPlace\RBAC\LCW.RBAC\LCW.RBAC.Infrastructure\obj\Debug\LCW.RBAC.Infrastructure.dll
+F:\WorkPlace\RBAC\LCW.RBAC\LCW.RBAC.Infrastructure\obj\Debug\LCW.RBAC.Infrastructure.pdb
+F:\WorkPlace\RBAC\LCW.RBAC\LCW.RBAC.Infrastructure\bin\Debug\Antlr3.Runtime.dll
+F:\WorkPlace\RBAC\LCW.RBAC\LCW.RBAC.Infrastructure\bin\Debug\Iesi.Collections.dll
+F:\WorkPlace\RBAC\LCW.RBAC\LCW.RBAC.Infrastructure\bin\Debug\NHibernate.dll
+F:\WorkPlace\RBAC\LCW.RBAC\LCW.RBAC.Infrastructure\bin\Debug\Remotion.Linq.dll
+F:\WorkPlace\RBAC\LCW.RBAC\Reference\LCW.RBAC.Infrastructure.dll
+F:\WorkPlace\RBAC\LCW.RBAC\Reference\LCW.RBAC.Infrastructure.pdb

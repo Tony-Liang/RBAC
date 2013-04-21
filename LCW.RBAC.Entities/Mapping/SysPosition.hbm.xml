@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="LCW.RBAC.Entities" assembly="LCW.RBAC.Entities">
+    <class name="SysPosition" table="[dbo].[sys_Position]" >
+        <id name="PositionId" column="[PositionId]" type="Int32" >
+            <generator class="native" />
+        </id>
+        <property name="PositionName" column="[PositionName]" type="AnsiString" not-null="true" length="20" /> 
+        <property name="PositionDescription" column="[PositionDescription]" type="AnsiString" not-null="false" length="50" /> 
+        <property name="Status" column="[Status]" type="Byte" not-null="true" /> 
+        <property name="OrderBy" column="[OrderBy]" type="Int32" not-null="true" /> 
+        <property name="CreateDate" column="[CreateDate]" type="DateTime" not-null="true" /> 
+        <property name="ModifiedDate" column="[ModifiedDate]" type="DateTime" not-null="true" /> 
+        <many-to-one name="SysPositionCategory" class="SysPositionCategory" not-null="true" >
+            <column name="[CategoryId]" />
+        </many-to-one>
+        <bag name="SysUserDetailList" inverse="true" cascade="all-delete-orphan" lazy="true" >
+            <key>
+                <column name="[PositionId]" />
+            </key>
+            <one-to-many class="SysUserDetail" />
+        </bag>
+    </class>
+</hibernate-mapping>
+

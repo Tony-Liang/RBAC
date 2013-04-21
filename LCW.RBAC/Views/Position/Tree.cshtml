@@ -1,0 +1,50 @@
+﻿@{
+    Layout = null;
+}
+@model IEnumerable<LCW.RBAC.Entities.SysPositionCategory>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Tree</title>
+</head>
+<body>
+    <div class="pageContent">
+	<div class="pageFormContent" layoutH="58">
+		<ul class="tree expand">
+			@helper init(IEnumerable<LCW.RBAC.Entities.SysPosition> tree)
+                {
+                if (tree != null)
+                {
+                    <ul>
+                        @foreach (var dep in tree)
+                        {
+                            <li><a href="javascript:" onclick="$.bringBack({id:'@dep.PositionId',Name:'@dep.PositionName'})">@dep.PositionName</a></li>
+                        }
+                    </ul> 
+                }
+            }
+
+            @{
+                IEnumerable<LCW.RBAC.Entities.SysPositionCategory> tree = Model as IEnumerable<LCW.RBAC.Entities.SysPositionCategory>;
+                if(tree!=null)
+                {
+                    foreach(var p in tree)
+                    {
+                        <li><a>@p.CategoryName</a>
+                            @init(p.SysPositionList)
+                        </li>
+                    }
+                }
+            }
+		</ul>
+	</div>
+	
+	<div class="formBar">
+		<ul>
+			<li><div class="button"><div class="buttonContent"><button class="close" type="button">关闭</button></div></div></li>
+		</ul>
+	</div>
+</div>
+</body>
+</html>

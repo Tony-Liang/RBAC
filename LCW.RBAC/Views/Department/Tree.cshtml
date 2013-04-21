@@ -1,0 +1,47 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Tree</title>
+</head>
+<body>
+    <div class="pageContent">
+	<div class="pageFormContent" layoutH="58">
+		<ul class="tree expand">
+			@helper init(LCW.RBAC.Application.DTO.DepartmentTree tree)
+            {
+                if(tree.Childrens!=null && tree.Childrens.Count>0)
+                {
+                    <ul>
+                        @foreach (var dep in tree.Childrens)
+                        {
+                            <li><a href="javascript:" onclick="$.bringBack({id:'@dep.Id',Name:'@dep.Text'})">@dep.Text</a>@init(dep)</li>
+                        }
+                    </ul> 
+                }
+            }
+
+            @{
+                LCW.RBAC.Application.DTO.DepartmentTree tree = Model as LCW.RBAC.Application.DTO.DepartmentTree;
+                if(tree!=null)
+                {
+                    <li><a>@tree.Text</a>
+                        @init(tree)
+                    </li>
+                }
+            }
+		</ul>
+	</div>
+	
+	<div class="formBar">
+		<ul>
+			<li><div class="button"><div class="buttonContent"><button class="close" type="button">关闭</button></div></div></li>
+		</ul>
+	</div>
+</div>
+</body>
+</html>

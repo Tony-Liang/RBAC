@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="LCW.RBAC.Entities" assembly="LCW.RBAC.Entities">
+    <class name="SysResourceAction" table="[dbo].[sys_ResourceAction]" >
+        <id name="ResourceActionId" column="[ResourceActionId]" type="Int32" >
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="SysAction" class="SysAction" not-null="true" >
+            <column name="[ActionId]" />
+        </many-to-one>
+        <many-to-one name="SysResource" class="SysResource" not-null="true" >
+            <column name="[ResourceId]" />
+        </many-to-one>
+        <bag name="AuthenticationList" inverse="true" cascade="all-delete-orphan" lazy="true" >
+            <key>
+                <column name="[ResourceActionId]" />
+            </key>
+            <one-to-many class="Authentication" />
+        </bag>
+    </class>
+</hibernate-mapping>
+

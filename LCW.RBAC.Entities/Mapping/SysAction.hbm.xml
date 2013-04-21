@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="LCW.RBAC.Entities" assembly="LCW.RBAC.Entities">
+    <class name="SysAction" table="[dbo].[sys_Action]" >
+        <id name="ActionId" column="[ActionId]" type="Int32" >
+            <generator class="assigned" />
+        </id>
+        <property name="ActionCode" column="[ActionCode]" type="AnsiString" not-null="true" length="20" /> 
+        <property name="ActionName" column="[ActionName]" type="AnsiString" not-null="true" length="20" /> 
+        <bag name="SysResourceActionList" inverse="true" cascade="all-delete-orphan" lazy="true" >
+            <key>
+                <column name="[ActionId]" />
+            </key>
+            <one-to-many class="SysResourceAction" />
+        </bag>
+    </class>
+</hibernate-mapping>
+

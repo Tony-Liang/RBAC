@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" namespace="LCW.RBAC.Entities" assembly="LCW.RBAC.Entities">
+    <class name="SysRole" table="[dbo].[sys_Role]" >
+        <id name="RoleId" column="[RoleId]" type="Int32" >
+            <generator class="assigned" />
+        </id>
+        <property name="ParentId" column="[ParentId]" type="Int32" not-null="true" /> 
+        <property name="RoleName" column="[RoleName]" type="AnsiString" not-null="true" length="20" /> 
+        <property name="Status" column="[Status]" type="Byte" not-null="true" /> 
+        <property name="CreateDate" column="[CreateDate]" type="DateTime" not-null="true" /> 
+        <property name="ModifiedDate" column="[ModifiedDate]" type="DateTime" not-null="true" /> 
+        <bag name="AuthenticationList" inverse="true" cascade="all-delete-orphan" lazy="true" >
+            <key>
+                <column name="[RoleId]" />
+            </key>
+            <one-to-many class="Authentication" />
+        </bag>
+        <bag name="SysGroupRoleList" inverse="true" cascade="all-delete-orphan" lazy="true" >
+            <key>
+                <column name="[RoleId]" />
+            </key>
+            <one-to-many class="SysGroupRole" />
+        </bag>
+        <bag name="SysUserRoleList" inverse="true" cascade="all-delete-orphan" lazy="true" >
+            <key>
+                <column name="[RoleId]" />
+            </key>
+            <one-to-many class="SysUserRole" />
+        </bag>
+    </class>
+</hibernate-mapping>
+
