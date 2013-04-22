@@ -7,6 +7,7 @@ using LCW.RBAC.Application;
 using LCW.Framework.Common.NHibernate;
 using LCW.RBAC.Infrastructure.Impl;
 using LCW.RBAC.Entities;
+using LCW.RBAC.Utility;
 
 namespace LCW.RBAC.Controllers
 {
@@ -80,6 +81,32 @@ namespace LCW.RBAC.Controllers
             return View("AccountDetail");
         }
 
+//{"statusCode":"200", "message":"操作成功", "navTabId":"navNewsLi", "forwardUrl":"", "callbackType":"closeCurrent"}
+
+//* {"statusCode":"300", "message":"操作失败"}
+
+//* {"statusCode":"301", "message":"会话超时"}
+
+
+        public ActionResult AccountRemove()
+        {
+            string ids=Request["ids"] ?? "";
+            string[] splits = ids.Split(',');
+            if (splits.Length > 0)
+            {
+                foreach (string id in splits)
+                {
+                    var user=service.FindAccount(Convert.ToInt32(id));
+                    if (user != null)
+                    {
+                        service.DeleteAccount(user);
+                    }
+                }
+                return Json(new SuccessCode("200", "操作成功", "Account_Index","","",""));
+            }
+            return Json(new ErrorCode("300", "操作失败"));
+        }
+
         public ActionResult Save()
         {
             int Id=Convert.ToInt32(Request["UserId"]??"0");
@@ -151,8 +178,9 @@ namespace LCW.RBAC.Controllers
                     service.UpdateAccount(user);
                 else
                     service.InsertAccount(user);
+                return Json(new SuccessCode("200", "操作成功", "Account_Index"));
             }
-            return View();
+            return Json(new ErrorCode("300", "操作失败"));
         }
     }   
 }

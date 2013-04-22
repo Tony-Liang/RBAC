@@ -50,10 +50,9 @@
 <div class="pageContent">
 	<div class="panelBar">
 		<ul class="toolBar">
-			<li><a class="add" href="/Account/AccountDetail" target="dialog" mask="true" rel="account_add" width="700"><span>添加</span></a></li>
-			<li><a title="确实要删除这些记录吗?" target="selectedTodo" rel="ids" href="demo/common/ajaxDone.html" class="delete"><span>批量删除默认方式</span></a></li>
-			<li><a title="确实要删除这些记录吗?" target="selectedTodo" rel="ids" postType="string" href="demo/common/ajaxDone.html" class="delete"><span>批量删除逗号分隔</span></a></li>
-			<li><a class="edit" href="demo_page4.html?uid={sid_user}" target="navTab" warn="请选择一个用户"><span>修改</span></a></li>
+			<li><a class="add" href="/Account/AccountDetail" target="dialog" mask="true" rel="account_add" width="700"><span>添加</span></a></li>			
+			<li><a title="确实要删除这些记录吗?" target="selectedTodo" rel="ids" postType="string" href="/Account/AccountRemove" class="delete"><span>批量删除逗号分隔</span></a></li>
+			<li><a class="edit" href="/Account/AccountDetail?id={sid_user}" target="navTab" warn="请选择一个用户"><span>修改</span></a></li>
 			<li class="line">line</li>
 			<li><a class="icon" href="demo/common/dwz-team.xls" target="dwzExport" targetType="navTab" title="实要导出这些记录吗?"><span>导出EXCEL</span></a></li>
 		</ul>
@@ -76,14 +75,14 @@
                 {
                     foreach(var user in datalist)
                     {
-                        <tr target="sid_user" rel=@user.UserId>
+                        <tr target="sid_user" rel="@user.UserId" >
                             <td><input name="ids" value=@user.UserId type="checkbox"></td>
                             <td>@user.UserId</td>
 				            <td>@user.LoginName</td>
 				            <td>@user.Status</td>
                             <td>
-					            <a title="删除" target="ajaxTodo" href="demo/common/ajaxDone.html?id=xxx" class="btnDel">删除</a>
-					            <a title="编辑" target="navTab" href="/Account/AccountDetail?id=@user.UserId" class="btnEdit">编辑</a>
+					            <a title="删除" target="ajaxTodo" href="/Account/AccountRemove?ids=@user.UserId" class="btnDel">删除</a>
+					            <a title="编辑" target="dialog" mask="true" href="/Account/AccountDetail?id=@user.UserId" class="btnEdit">编辑</a>
 				            </td>				            
         			    </tr>
                     }
