@@ -34,6 +34,24 @@ namespace LCW.RBAC.Controllers
             return View(criterion);
         }
 
+        private CriterionAssociations CheckAssociations(List<CriterionAssociations> associations, string associationPath)
+        {
+            CriterionAssociations temp = null;
+            foreach (var t in associations)
+            {
+                if (t.AssociationPath == associationPath)
+                {
+                    temp = t;
+                }
+            }
+            if (temp == null)
+            {
+                temp = new CriterionAssociations(associationPath);
+                associations.Add(temp);
+            }
+            return temp;
+        }
+
         private void GetRequestParams<T>(CriterionRequest<T> criterion,params string[] keywork)
         {
             criterion.PageSize = Convert.ToInt32(Request.Form["numPerPage"]??"10");
@@ -45,24 +63,56 @@ namespace LCW.RBAC.Controllers
             //direction = direction == "desc" ? "asc" : "desc";
             ViewData["direction"] = direction;
             ViewData["keyword"] = keyWords;
+
+            List<CriterionAssociations> associations=new List<CriterionAssociations>();
             if (!string.IsNullOrEmpty(keyWords))
-            {
-                var exp=NHibernate.Criterion.Expression.Disjunction();
+            {                             
+                var exp = NHibernate.Criterion.Expression.Disjunction();
                 foreach (string str in keywork)
                 {
-                    exp.Add(NHibernate.Criterion.Expression.Like(str,keyWords));
+                    string[] spt = str.Split('.');
+                    if (spt != null && spt.Length == 2)
+                    {
+                        CriterionAssociations tempc = this.CheckAssociations(associations, spt[0]);
+                        if (tempc.Criterias != null && tempc.Criterias.Length > 0)
+                        {
+                            ((NHibernate.Criterion.Disjunction)tempc.Criterias[0].Compile().Invoke()).Add(NHibernate.Criterion.Expression.Like(str, keyWords));
+                        }
+                        else
+                        {
+                            tempc.Criterias = new System.Linq.Expressions.Expression<Func<NHibernate.Criterion.ICriterion>>[]{
+                                ()=>NHibernate.Criterion.Expression.Disjunction().Add(NHibernate.Criterion.Expression.Like(str, keyWords))
+                            };
+                        }
+                    }
+                    {
+                        exp.Add(NHibernate.Criterion.Expression.Like(str, keyWords));
+                    }
                 }
-                criterion.Criterias=new System.Linq.Expressions.Expression<Func<NHibernate.Criterion.ICriterion>>[]{
+                criterion.Criterias = new System.Linq.Expressions.Expression<Func<NHibernate.Criterion.ICriterion>>[]{
                     ()=>exp
                 };
             }
             if(!string.IsNullOrEmpty(orderby))
             {
-                criterion.Orders = new System.Linq.Expressions.Expression<Func<NHibernate.Criterion.Order>>[]
+                string[] strt=orderby.Split('.');
+                if (strt != null && strt.Length == 2)
                 {
-                    ()=>direction=="asc"?NHibernate.Criterion.Order.Asc(orderby):NHibernate.Criterion.Order.Desc(orderby)
-                };
+                    CriterionAssociations temp_order = this.CheckAssociations(associations, strt[0]);
+                    temp_order.Orders = new System.Linq.Expressions.Expression<Func<NHibernate.Criterion.Order>>[]
+                    {
+                        ()=>direction=="asc"?NHibernate.Criterion.Order.Asc(orderby):NHibernate.Criterion.Order.Desc(orderby)
+                    };
+                }
+                else
+                {
+                    criterion.Orders = new System.Linq.Expressions.Expression<Func<NHibernate.Criterion.Order>>[]
+                    {
+                        ()=>direction=="asc"?NHibernate.Criterion.Order.Asc(orderby):NHibernate.Criterion.Order.Desc(orderby)
+                    };
+                }
             }
+            criterion.Associations = associations.ToArray();
         }
 
         public ActionResult AccountDetail()
@@ -75,7 +125,7 @@ namespace LCW.RBAC.Controllers
             }
             return View(user);
         }
-
+ 
         public ActionResult AddAccount()
         {
             return View("AccountDetail");

@@ -69,9 +69,9 @@ namespace LCW.RBAC.Infrastructure
             Session.SaveOrUpdate(entity);
         }
 
-
+        //DetachedCriteria
         public IEnumerable<T> Fetch(Framework.Common.NHibernate.CriterionRequest<T> Criterion)
-        {
+        { 
             ICriteria criterias = this.Session.CreateCriteria<T>();
             if (Criterion.Criterias != null)
             {
@@ -79,7 +79,21 @@ namespace LCW.RBAC.Infrastructure
                 {
                     criterias.Add(exp.Compile().Invoke());
                 }
-            }            
+            }
+            if (Criterion.Associations != null)
+            {
+                foreach (var aexp in Criterion.Associations)
+                {
+                    criterias.CreateCriteria(aexp.AssociationPath, aexp.Alias);
+                    if (aexp.Criterias != null)
+                    {
+                        foreach (var child in aexp.Criterias)
+                        {
+                            criterias.Add(child.Compile().Invoke());
+                        }
+                    }
+                }
+            }
             ICriteria totalcriteria = criterias.Clone() as ICriteria;
             Criterion.Totals = totalcriteria.SetProjection(Projections.RowCount()).UniqueResult<int>();
             if (Criterion.Orders != null)
@@ -87,6 +101,19 @@ namespace LCW.RBAC.Infrastructure
                 foreach (var order in Criterion.Orders)
                 {
                     criterias.AddOrder(order.Compile().Invoke());
+                }               
+            }
+            if (Criterion.Associations != null)
+            {
+                foreach (var aexp in Criterion.Associations)
+                {
+                    if (aexp.Orders != null)
+                    {
+                        foreach (var child in aexp.Orders)
+                        {
+                            criterias.AddOrder(child.Compile().Invoke());
+                        }
+                    }
                 }
             }
             criterias.SetFirstResult((Criterion.CurrentPage - 1) * Criterion.PageSize)

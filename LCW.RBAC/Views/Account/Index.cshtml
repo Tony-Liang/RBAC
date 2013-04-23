@@ -62,9 +62,15 @@
         <thead>
 			<tr>
             <th width="22"><input type="checkbox" group="ids" class="checkboxCtrl"></th>
-				<th width="120" orderField="UserId" class="@{@(ViewData["orderby"].ToString() == "UserId" ? ViewData["direction"]:"asc");}">客户号</th>
-				<th width="200" orderField="LoginName" class="@{@(ViewData["orderby"].ToString() == "LoginName" ? ViewData["direction"]:"asc");}">客户名称</th>
-				<th width="100">状态</th>
+				<th orderField="UserId" class="@{@(ViewData["orderby"].ToString() == "UserId" ? ViewData["direction"]:"asc");}">客户号</th>
+				<th orderField="LoginName" class="@{@(ViewData["orderby"].ToString() == "LoginName" ? ViewData["direction"]:"asc");}">客户名称</th>
+				<th>真实名</th>
+                <th>状态</th>
+                <th orderField="SysUserDetail.Sex" class="@{@(ViewData["orderby"].ToString() == "SysUserDetail.Sex" ? ViewData["direction"] : "asc");}">性别</th>
+                <th>用户类型</th>
+                <th>部门</th>
+                <th>职位</th>
+                <th>建档日期</th>               
                 <th width="70">操作</th>			
 			</tr>
 		</thead>
@@ -79,10 +85,16 @@
                             <td><input name="ids" value=@user.UserId type="checkbox"></td>
                             <td>@user.UserId</td>
 				            <td>@user.LoginName</td>
-				            <td>@user.Status</td>
+                            <td>@user.SysUserDetail.EName</td>
+                            <td>@user.Status</td>
+                            <td>@(user.SysUserDetail.Sex==0?"女":"男")</td>
+                            <td>@user.SysUserDetail.Type</td>
+                            <td>@(user.SysUserDetail.SysDepartment==null?"":user.SysUserDetail.SysDepartment.DepartmentName)</td>
+                            <td>@(user.SysUserDetail.SysPosition==null?"":user.SysUserDetail.SysPosition.PositionName)</td>
+                            <td>@user.SysUserDetail.CreateDate.ToString("yyyy-MM-dd")</td>				            
                             <td>
 					            <a title="删除" target="ajaxTodo" href="/Account/AccountRemove?ids=@user.UserId" class="btnDel">删除</a>
-					            <a title="编辑" target="dialog" mask="true" href="/Account/AccountDetail?id=@user.UserId" class="btnEdit">编辑</a>
+					            <a title="编辑" target="dialog" mask="true" href="/Account/AccountDetail?id=@user.UserId" class="btnEdit" rel="d_editaccount">编辑</a>
 				            </td>				            
         			    </tr>
                     }

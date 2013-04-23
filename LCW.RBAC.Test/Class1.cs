@@ -143,5 +143,18 @@ namespace LCW.RBAC.Test
             IAuthenticationRepository a = new AuthenticationRepository();
             var f=a.Find(null);
         }
+
+        [Test]
+        public void User()
+        {
+            var list=Session.CreateCriteria<SysUser>("u")
+                   .Add(NHibernate.Criterion.Expression.Eq("Status",(byte)1))
+                   .CreateCriteria("SysUserDetail", "SysUserDetail")
+                   .CreateCriteria("SysUserDetail.SysDepartment", "S")
+                   .Add(NHibernate.Criterion.Expression.Eq("S.DepartmentId",4))
+                   .AddOrder(NHibernate.Criterion.Order.Desc("SysUserDetail.Sex"))
+                   .AddOrder(NHibernate.Criterion.Order.Desc("u.Status"))
+                   .List();
+        }
     }
 }
